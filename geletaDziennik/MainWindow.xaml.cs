@@ -55,7 +55,9 @@ namespace geletaDziennik
 
                         if (!isStudent)
                         {
-                            throw new NotImplementedException();
+                            int nauczycielId = reader.GetInt32(0);
+                            OknoNauczyciela oknoNauczyciela = new OknoNauczyciela(nauczycielId);
+                            oknoNauczyciela.Show();
                         }
                         else
                         {
