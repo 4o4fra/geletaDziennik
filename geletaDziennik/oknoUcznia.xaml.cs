@@ -36,7 +36,7 @@ namespace geletaDziennik
                     
                     if (reader.Read())
                     {
-                        StudentData studentData     = new StudentData
+                        StudentData studentData = new StudentData
                         {
                             Pesel = reader.GetInt32(0),
                             Imie = reader.GetString(1),
@@ -83,7 +83,7 @@ namespace geletaDziennik
                             Id = reader.GetInt32(0),
                             UczenId = reader.GetInt32(1),
                             PrzedmiotId = reader.GetInt32(2),
-                            Ocena = reader.GetInt32(3),
+                            Ocena = reader.GetDouble(3),
                             NazwaPrzedmiotu = reader.GetString(4)
                         });
                     }
@@ -105,7 +105,7 @@ namespace geletaDziennik
         public int Id { get; set; }
         public int UczenId { get; set; }
         public int PrzedmiotId { get; set; }
-        public int Ocena { get; set; }
+        public double Ocena { get; set; }
         public string NazwaPrzedmiotu { get; set; }
     }
 
