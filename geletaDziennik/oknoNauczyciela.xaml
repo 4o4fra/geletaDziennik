@@ -4,6 +4,12 @@
         Title="Okno Nauczyciela" Height="450" Width="800">
     <Grid>
         <TextBlock Name="TeacherInfoTextBlock" Margin="10" />
-        <DataGrid Name="TeacherStudentsDataGrid" AutoGenerateColumns="True" Margin="10,40,10,10" />
+        <DataGrid Name="TeacherStudentsDataGrid" AutoGenerateColumns="True" Margin="10,40,10,10">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Dodaj ocenę" Click="AddGradeMenuItem_Click"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
     </Grid>
 </Window>

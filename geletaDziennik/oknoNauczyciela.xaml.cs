@@ -82,7 +82,7 @@ namespace geletaDziennik
                             Pesel = reader.GetInt32(0),
                             Imie = reader.GetString(1),
                             Nazwisko = reader.GetString(2),
-                            KlasaId = reader.GetString(3).Trim(),
+                            KlasaId = reader.GetString(3),
                             Punkty = reader.GetInt32(4)
                         });
                     }
@@ -95,6 +95,20 @@ namespace geletaDziennik
             catch (Exception ex)
             {
                 MessageBox.Show("Error loading teacher students: " + ex.Message);
+            }
+        }
+
+        private void AddGradeMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (TeacherStudentsDataGrid.SelectedItem is StudentData selectedStudent)
+            {
+                AddGradeWindow addGradeWindow = new AddGradeWindow(selectedStudent.Pesel, _teacherId);
+                addGradeWindow.ShowDialog();
+                LoadTeacherStudents();
+            }
+            else
+            {
+                MessageBox.Show("Proszę wybrać ucznia.");
             }
         }
     }
