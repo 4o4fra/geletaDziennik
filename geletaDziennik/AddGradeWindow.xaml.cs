@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Windows;
 
@@ -14,6 +15,7 @@ namespace geletaDziennik
             _studentPesel = studentPesel;
             _teacherPesel = teacherPesel;
             InitializeComponent();
+            LoadStudentGrades();
         }
 
         private int GetSubjectId(int teacherPesel)
@@ -75,11 +77,54 @@ namespace geletaDziennik
                 }
 
                 MessageBox.Show("Ocena została dodana.");
-                this.Close();
+                LoadStudentGrades();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error adding grade: " + ex.Message);
+            }
+        }
+
+        private void LoadStudentGrades()
+        {
+            string query = @"
+                SELECT o.id, o.id_ucznia, o.id_przedmiotu, o.ocena, p.nazwa 
+                FROM ocena o
+                JOIN przedmiot p ON o.id_przedmiotu = p.id
+                WHERE o.id_ucznia = @studentPesel";
+
+            List<StudentGrade> studentGrades = new List<StudentGrade>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Config.ConnectionString))
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@studentPesel", _studentPesel);
+
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        studentGrades.Add(new StudentGrade
+                        {
+                            Id = reader.GetInt32(0),
+                            UczenId = reader.GetInt32(1),
+                            PrzedmiotId = reader.GetInt32(2),
+                            Ocena = reader.GetDouble(3),
+                            NazwaPrzedmiotu = reader.GetString(4)
+                        });
+                    }
+
+                    reader.Close();
+                }
+
+                GradesDataGrid.ItemsSource = studentGrades;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error loading student grades: " + ex.Message);
             }
         }
     }
