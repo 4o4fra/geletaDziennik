@@ -41,7 +41,7 @@ namespace geletaDziennik
                             Pesel = reader.GetInt32(0),
                             Imie = reader.GetString(1),
                             Nazwisko = reader.GetString(2),
-                            KlasaId = reader.GetString(3),
+                            KlasaId = reader.GetString(3).Trim(),
                             Punkty = reader.GetInt32(4)
                         };
                         StudentInfoTextBlock.Text = $"PESEL: {studentData.Pesel}, Imię: {studentData.Imie}, Nazwisko: {studentData.Nazwisko}, Klasa ID: {studentData.KlasaId}, Punkty: {studentData.Punkty}";
