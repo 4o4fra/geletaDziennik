@@ -1,10 +1,11 @@
 ﻿<Window x:Class="geletaDziennik.OknoNauczyciela"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Okno Nauczyciela" Height="450" Width="800">
-    <Grid>
-        <TextBlock Name="TeacherInfoTextBlock" Margin="10" />
-        <DataGrid Name="TeacherStudentsDataGrid" AutoGenerateColumns="True" Margin="10,40,10,10">
+        Title="Okno Nauczyciela" Height="450" Width="800"
+        Background="#2E2E2E">
+    <Grid Margin="20">
+        <TextBlock Name="TeacherInfoTextBlock" Margin="10" Foreground="#FFFFFF"/>
+        <DataGrid Name="TeacherStudentsDataGrid" AutoGenerateColumns="True" Margin="10,40,10,10" Background="#FFFFFF" Foreground="#000000">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Dodaj ocenę" Click="AddGradeMenuItem_Click"/>
