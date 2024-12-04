@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
+using System.Runtime.Remoting.Messaging;
 using System.Windows;
 
 namespace geletaDziennik
@@ -74,6 +75,25 @@ namespace geletaDziennik
                 return;
             }
             string query = "SELECT PESEL FROM " + (isStudent ? "uczen" : "nauczyciel") + " WHERE pesel = '" + pesel.Text + "' AND haslo = '" + password.Password + "'";
+            bool isDirector = false;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Config.ConnectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("SELECT COUNT(*) FROM nauczyciel WHERE PESEL = " + pesel.Text + " AND dyrektor = 1", connection);
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        isDirector = reader.GetInt32(0) == 1;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+            }
 
             try
             {
@@ -91,8 +111,6 @@ namespace geletaDziennik
                         if (!isStudent)
                         {
                             int nauczycielId = reader.GetInt32(0);
-                            bool isDirector = false;
-                            command = new SqlCommand("SELECT COUNT(*) FROM dyrektor WHERE nauczyciel_id = " + nauczycielId, connection);
                             OknoNauczyciela oknoNauczyciela = new OknoNauczyciela(nauczycielId, isDirector);
                             oknoNauczyciela.Show();
                         }

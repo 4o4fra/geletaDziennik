@@ -8,10 +8,12 @@ namespace geletaDziennik
     public partial class OknoNauczyciela : Window
     {
         private int _teacherId;
+        private bool _isDirector;
 
         public OknoNauczyciela(int teacherId, bool isDirector)
         {
             _teacherId = teacherId;
+            _isDirector = isDirector;
             InitializeComponent();
             LoadTeacherData();
             LoadTeacherStudents();
@@ -57,11 +59,22 @@ namespace geletaDziennik
 
         private void LoadTeacherStudents()
         {
-            string query = @"
-                SELECT u.PESEL, u.imie, u.nazwisko, u.klasa_id, u.punkty 
-                FROM uczen u
-                JOIN klasa k ON u.klasa_id = k.id
-                WHERE k.wychowawca_id = @teacherId";
+            string query;
+            if (_isDirector)
+            {
+                Console.WriteLine("DYREKTOR");
+                query = @"
+                    SELECT u.PESEL, u.imie, u.nazwisko, u.klasa_id, u.punkty 
+                    FROM uczen u";
+            }
+            else
+            {
+                query = @"
+                    SELECT u.PESEL, u.imie, u.nazwisko, u.klasa_id, u.punkty 
+                    FROM uczen u
+                    JOIN klasa k ON u.klasa_id = k.id
+                    WHERE k.wychowawca_id = @teacherId";
+            }
 
             List<StudentData> teacherStudents = new List<StudentData>();
 
@@ -70,7 +83,10 @@ namespace geletaDziennik
                 using (SqlConnection connection = new SqlConnection(Config.ConnectionString))
                 {
                     SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@teacherId", _teacherId);
+                    if (!_isDirector)
+                    {
+                        command.Parameters.AddWithValue("@teacherId", _teacherId);
+                    }
 
                     connection.Open();
                     SqlDataReader reader = command.ExecuteReader();
@@ -111,10 +127,10 @@ namespace geletaDziennik
                 MessageBox.Show("Proszę wybrać ucznia.");
             }
         }
-        
+
         private void AddWarningMenuItem_Click(object sender, RoutedEventArgs e)
         {
-           if (TeacherStudentsDataGrid.SelectedItem is StudentData selectedStudent)
+            if (TeacherStudentsDataGrid.SelectedItem is StudentData selectedStudent)
             {
                 AddWarningWindow addWarningWindow = new AddWarningWindow(selectedStudent.Pesel, _teacherId);
                 addWarningWindow.ShowDialog();
