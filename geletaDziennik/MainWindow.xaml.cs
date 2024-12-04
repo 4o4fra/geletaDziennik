@@ -91,7 +91,9 @@ namespace geletaDziennik
                         if (!isStudent)
                         {
                             int nauczycielId = reader.GetInt32(0);
-                            OknoNauczyciela oknoNauczyciela = new OknoNauczyciela(nauczycielId);
+                            bool isDirector = false;
+                            command = new SqlCommand("SELECT COUNT(*) FROM dyrektor WHERE nauczyciel_id = " + nauczycielId, connection);
+                            OknoNauczyciela oknoNauczyciela = new OknoNauczyciela(nauczycielId, isDirector);
                             oknoNauczyciela.Show();
                         }
                         else

@@ -9,7 +9,7 @@ namespace geletaDziennik
     {
         private int _teacherId;
 
-        public OknoNauczyciela(int teacherId)
+        public OknoNauczyciela(int teacherId, bool isDirector)
         {
             _teacherId = teacherId;
             InitializeComponent();
