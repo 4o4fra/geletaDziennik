@@ -17,7 +17,10 @@ namespace geletaDziennik
             InitializeComponent();
             LoadTeacherData();
             LoadTeacherStudents();
+            DataContext = this;
         }
+
+        public bool IsDirector => _isDirector;
 
         private void LoadTeacherData()
         {
@@ -140,6 +143,13 @@ namespace geletaDziennik
             {
                 MessageBox.Show("Proszę wybrać ucznia.");
             }
+        }
+
+        private void AddStudentButton_Click(object sender, RoutedEventArgs e)
+        {
+           AddStudentWindow addStudentWindow = new AddStudentWindow();
+           addStudentWindow.ShowDialog();
+           LoadTeacherStudents();
         }
 
         private class StudentData
