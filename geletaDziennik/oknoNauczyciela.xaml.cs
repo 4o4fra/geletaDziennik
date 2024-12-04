@@ -111,6 +111,29 @@ namespace geletaDziennik
                 MessageBox.Show("Proszę wybrać ucznia.");
             }
         }
+        
+        private void AddWarningMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+           if (TeacherStudentsDataGrid.SelectedItem is StudentData selectedStudent)
+            {
+                AddWarningWindow addWarningWindow = new AddWarningWindow(selectedStudent.Pesel, _teacherId);
+                addWarningWindow.ShowDialog();
+                LoadTeacherStudents();
+            }
+            else
+            {
+                MessageBox.Show("Proszę wybrać ucznia.");
+            }
+        }
+
+        private class StudentData
+        {
+            public int Pesel { get; set; }
+            public string Imie { get; set; }
+            public string Nazwisko { get; set; }
+            public string KlasaId { get; set; }
+            public int Punkty { get; set; }
+        }
     }
 
     public class TeacherData

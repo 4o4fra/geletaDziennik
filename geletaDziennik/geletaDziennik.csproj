@@ -72,6 +72,9 @@
     <Compile Include="oknoUcznia.xaml.cs">
       <DependentUpon>oknoUcznia.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddWarningWindow.xaml.cs">
+      <DependentUpon>AddWarningWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="AddGradeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -93,6 +96,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="oknoUcznia.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddWarningWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

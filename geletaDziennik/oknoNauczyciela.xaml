@@ -9,6 +9,7 @@
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Dodaj ocenę" Click="AddGradeMenuItem_Click"/>
+                    <MenuItem Header="Dodaj uwagę" Click="AddWarningMenuItem_Click"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

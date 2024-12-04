@@ -98,6 +98,15 @@ namespace geletaDziennik
                 MessageBox.Show("Error loading student grades: " + ex.Message);
             }
         }
+        private class StudentData
+        {
+            public int Pesel { get; set; }
+            public string Imie { get; set; }
+            public string Nazwisko { get; set; }
+            public string Haslo { get; set; }
+            public string KlasaId { get; set; }
+            public int Punkty { get; set; }
+        }
     }
 
     public class StudentGrade
@@ -109,13 +118,5 @@ namespace geletaDziennik
         public string NazwaPrzedmiotu { get; set; }
     }
 
-    public class StudentData
-    {
-        public int Pesel { get; set; }
-        public string Imie { get; set; }
-        public string Nazwisko { get; set; }
-        public string Haslo { get; set; }
-        public string KlasaId { get; set; }
-        public int Punkty { get; set; }
-    }
+
 }
