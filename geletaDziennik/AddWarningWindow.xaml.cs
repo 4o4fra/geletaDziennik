@@ -49,39 +49,37 @@ namespace geletaDziennik
             }
         }
 
-        private void SubmitGradeButton_Click(object sender, RoutedEventArgs e)
+        private void SubmitPointsButton_Click(object sender, RoutedEventArgs e)
         {
-            string grade = WarningTextBox.Text;
-
-            if (string.IsNullOrEmpty(grade))
+            if (!int.TryParse(WarningTextBox.Text, out int points))
             {
-                MessageBox.Show("Ocena jest wymagana.");
+                MessageBox.Show("Proszę wpisać poprawną liczbę punktów.");
                 return;
             }
 
             string query = @"
-                INSERT INTO ocena (id_ucznia, id_przedmiotu, ocena)
-                VALUES (@studentPesel, @przedmiotId, @grade)";
+        UPDATE uczen
+        SET punkty = punkty + @points
+        WHERE PESEL = @studentPesel";
 
             try
             {
                 using (SqlConnection connection = new SqlConnection(Config.ConnectionString))
                 {
                     SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@points", points);
                     command.Parameters.AddWithValue("@studentPesel", _studentPesel);
-                    command.Parameters.AddWithValue("@przedmiotId", GetSubjectId(_teacherPesel));
-                    command.Parameters.AddWithValue("@grade", grade);
 
                     connection.Open();
                     command.ExecuteNonQuery();
                 }
 
-                MessageBox.Show("Ocena została dodana.");
+                MessageBox.Show("Punkty zostały zaktualizowane.");
                 LoadStudentGrades();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error adding grade: " + ex.Message);
+                MessageBox.Show("Error updating points: " + ex.Message);
             }
         }
 
