@@ -38,7 +38,41 @@ namespace geletaDziennik
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            bool isStudent = uczen.IsChecked == true;
+            bool isStudent;
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(Config.ConnectionString))
+                {
+                    connection.Open();
+                    SqlCommand command = new SqlCommand("SELECT COUNT(PESEL) FROM uczen WHERE pesel = '" + pesel.Text + "'", connection);
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.Read())
+                    {
+                        if (reader.GetInt32(0) == 0)
+                        {
+                            Console.WriteLine("Logowanie jako nauczyciel");
+                            isStudent = false;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Logowanie jako uczen");
+                            isStudent = true;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Logowanie jako nauczyciel");
+                        isStudent = false;
+                    }
+                    connection.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.Write(ex.Message);
+                return;
+            }
             string query = "SELECT PESEL FROM " + (isStudent ? "uczen" : "nauczyciel") + " WHERE pesel = '" + pesel.Text + "' AND haslo = '" + password.Password + "'";
 
             try
@@ -48,6 +82,7 @@ namespace geletaDziennik
                     connection.Open();
                     SqlCommand command = new SqlCommand(query, connection);
                     SqlDataReader reader = command.ExecuteReader();
+                    
 
                     if (reader.Read())
                     {
