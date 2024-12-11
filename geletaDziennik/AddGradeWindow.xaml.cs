@@ -112,7 +112,7 @@ namespace geletaDziennik
                             Id = reader.GetInt32(0),
                             UczenId = reader.GetInt32(1),
                             PrzedmiotId = reader.GetInt32(2),
-                            Ocena = reader.GetDouble(3),
+                            Ocena = reader.GetInt32(3),
                             NazwaPrzedmiotu = reader.GetString(4)
                         });
                     }
